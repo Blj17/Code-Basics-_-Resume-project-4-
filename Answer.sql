@@ -213,11 +213,12 @@ INNER JOIN fact_sales_monthly AS M
 ON C.customer_code = M.customer_code
 INNER JOIN fact_gross_price AS G
 ON G.product_code = M.product_code
+WHERE M.fiscal_year = 2021
 GROUP BY channel
 ORDER BY gross_sales_mln desc)
 SELECT channel,
        gross_sales_mln,
-       (round(S.gross_sales_mln/t.total *100)) AS Percentage
+       round(((S.gross_sales_mln/t.total )*100),2) AS Percentage
 FROM sales AS S
 CROSS JOIN (SELECT sum(gross_sales_mln) AS total FROM sales) t;
 
@@ -225,9 +226,9 @@ CROSS JOIN (SELECT sum(gross_sales_mln) AS total FROM sales) t;
 +--------------------+------------------------+-----------------+
 | 	CHANNEL      |	  gross_sales_mln     |	    Percentage  |	
 +--------------------+------------------------+-----------------+
-|    Retailer	     |	 2690556298.96        |	        72	|
-|    Direct          |   601710533.77         |         16      |
-|   Distributor      |   419449097.61         |         11      |
+|    Retailer	     |	 1924170397.91        |	        73.22	|
+|    Direct          |   406686873.90         |         15.47   |
+|   Distributor      |   297175879.72         |         11.31   |
 +---------------+-------------------------------+---------------+ */
 
 /* 10) Get the Top 3 products in each division that have a high total_sold_quantity in the fiscal_year 2021?  */
